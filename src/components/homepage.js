@@ -84,36 +84,29 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Navbar */}
-      <nav className="bg-black p-4 sticky top-0 z-50">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center relative">
-              <Image
-                src="https://images.unsplash.com/photo-1581349485608-9469926a8e5e?w=50&h=50&fit=crop"
-                alt="Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded-full"
-                priority
-              />
-            </div>
-            <span className="font-bold text-xl">Comidas e Lugares</span>
-          </div>
-          
-          <div className="flex items-center space-x-6">
-            <div className="relative hidden md:block">
-              <input 
-                type="text"
-                placeholder="Buscar restaurantes, pratos..."
-                className="bg-gray-800 rounded-full py-2 px-4 pl-10 w-64 text-sm"
-              />
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-            </div>
-            <Menu className="h-6 w-6" />
-          </div>
-        </div>
-      </nav>
+     {/* Navbar */}
+<nav className="bg-black p-4 sticky top-0 z-50">
+  <div className="container mx-auto flex items-center justify-between">
+    <div className="flex items-center space-x-4">
+      <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center relative">
+        <Image
+          src="https://images.unsplash.com/photo-1581349485608-9469926a8e5e?w=50&h=50&fit=crop"
+          alt="Logo"
+          width={32}
+          height={32}
+          className="w-8 h-8 rounded-full"
+          priority
+        />
+      </div>
+      <span className="font-bold text-xl">Comidas e Lugares</span>
+    </div>
+    
+    <div className="flex items-center space-x-6">
+      <Menu className="h-6 w-6" />
+    </div>
+  </div>
+</nav>
+
 
       {/* Hero Section com Carrossel */}
       <div className="relative h-96 group">
