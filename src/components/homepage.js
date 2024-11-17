@@ -92,13 +92,11 @@ export default function HomePage() {
                             <Image
                                 src="https://images.unsplash.com/photo-1581349485608-9469926a8e5e?w=50&h=50&fit=crop"
                                 alt="Logo"
-                                width={32}
-                                height={32}
+                                width={50}
+                                height={50}
                                 className="w-8 h-8 rounded-full"
+                                priority
                             />
-
-
-
 
                         </div>
                         <span className="font-bold text-xl">Comidas e Lugares</span>
