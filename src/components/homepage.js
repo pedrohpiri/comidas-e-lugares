@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { Search, Menu, Instagram, Star, Clock, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { 
+  Search, 
+  Menu, 
+  Instagram, 
+  Star, 
+  Clock, 
+  MapPin, 
+  ChevronLeft, 
+  ChevronRight,
+  Share2,
+  Link
+} from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -8,7 +19,34 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 
 export default function HomePage() {
-  // Array de slides com imagens temporárias do Unsplash
+  const [shareMenuOpen, setShareMenuOpen] = useState(null);
+
+  const handleShare = async (platform, restaurantName) => {
+    const shareUrl = window.location.href;
+    const shareText = `Confira ${restaurantName} no Comidas e Lugares!`;
+
+    switch (platform) {
+      case 'whatsapp':
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+        break;
+      case 'facebook':
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
+        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`);
+        break;
+      case 'copy':
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          alert('Link copiado!');
+        } catch (err) {
+          console.error('Falha ao copiar:', err);
+        }
+        break;
+    }
+    setShareMenuOpen(null);
+  };
+
   const heroSlides = [
     {
       image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=600&fit=crop',
@@ -27,14 +65,12 @@ export default function HomePage() {
     }
   ];
 
-  // Imagens temporárias para cards de restaurantes
   const restaurantImages = [
     'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&h=300&fit=crop',
     'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400&h=300&fit=crop',
     'https://images.unsplash.com/photo-1544148103-0773bf10d330?w=400&h=300&fit=crop'
   ];
 
-  // Imagens temporárias para feed do Instagram
   const instaImages = [
     'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&h=300&fit=crop',
     'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=300&h=300&fit=crop',
@@ -132,35 +168,94 @@ export default function HomePage() {
       <div className="container mx-auto py-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Trending da Semana</h2>
-          <button className="text-blue-400 hover:text-blue-300">Ver todos</button>
+          <button className="text-blue-400 hover:text-blue-300 transition-colors">Ver todos</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {restaurantImages.map((image, index) => (
-            <div key={index} className="bg-gray-800 rounded-lg overflow-hidden">
-              <div className="relative w-full h-48">
+            <div 
+              key={index} 
+              className="bg-gray-800 rounded-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/20 cursor-pointer relative"
+            >
+              <div className="relative w-full h-48 overflow-hidden">
                 <Image
                   src={image}
                   alt={`Restaurante ${index + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-300 hover:scale-110"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
+                {/* Botão de compartilhar */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShareMenuOpen(shareMenuOpen === index ? null : index);
+                  }}
+                  className="absolute top-4 right-4 p-2 bg-gray-900/50 hover:bg-gray-900/75 rounded-full transition-all duration-300 z-20"
+                >
+                  <Share2 className="w-5 h-5" />
+                </button>
+                
+                {/* Menu de compartilhamento */}
+                {shareMenuOpen === index && (
+                  <div 
+                    className="absolute top-16 right-4 bg-gray-800 rounded-lg shadow-xl z-30 p-2 w-48"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => handleShare('whatsapp', `Restaurante ${index + 1}`)}
+                      className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-700 rounded-lg w-full transition-colors"
+                    >
+                      <Share2 className="w-5 h-5 text-green-400" />
+                      <span>WhatsApp</span>
+                    </button>
+                    <button
+                      onClick={() => handleShare('facebook', `Restaurante ${index + 1}`)}
+                      className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-700 rounded-lg w-full transition-colors"
+                    >
+                      <Share2 className="w-5 h-5 text-blue-500" />
+                      <span>Facebook</span>
+                    </button>
+                    <button
+                      onClick={() => handleShare('twitter', `Restaurante ${index + 1}`)}
+                      className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-700 rounded-lg w-full transition-colors"
+                    >
+                      <Share2 className="w-5 h-5 text-blue-400" />
+                      <span>Twitter</span>
+                    </button>
+                    <button
+                      onClick={() => handleShare('copy', `Restaurante ${index + 1}`)}
+                      className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-700 rounded-lg w-full transition-colors"
+                    >
+                      <Link className="w-5 h-5 text-gray-400" />
+                      <span>Copiar Link</span>
+                    </button>
+                  </div>
+                )}
+                
+                {/* Overlay com gradiente */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <div className="p-4">
-                <h3 className="font-bold text-lg mb-2">Restaurante {index + 1}</h3>
+              <div className="p-4 transform transition-transform duration-300">
+                <h3 className="font-bold text-lg mb-2 group-hover:text-blue-400">Restaurante {index + 1}</h3>
                 <div className="flex items-center space-x-4 text-sm text-gray-400">
-                  <div className="flex items-center">
+                  <div className="flex items-center hover:text-yellow-400 transition-colors">
                     <Star className="h-4 w-4 mr-1" />
                     <span>4.{index + 5}</span>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center hover:text-blue-400 transition-colors">
                     <Clock className="h-4 w-4 mr-1" />
                     <span>30-45 min</span>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center hover:text-green-400 transition-colors">
                     <MapPin className="h-4 w-4 mr-1" />
                     <span>{index + 1}.5 km</span>
                   </div>
+                </div>
+                {/* Botão "Ver mais" que aparece no hover */}
+                <div className="mt-4 overflow-hidden h-0 group-hover:h-10 transition-all duration-300">
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded-full w-full hover:bg-blue-600 transition-colors">
+                    Ver mais
+                  </button>
                 </div>
               </div>
             </div>
