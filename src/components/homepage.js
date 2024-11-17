@@ -8,6 +8,9 @@ import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
+import Footer from '../components/Footer';
+
+
 
 export default function HomePage() {
   const [shareMenuOpen, setShareMenuOpen] = useState(null);
@@ -37,6 +40,8 @@ export default function HomePage() {
     }
     setShareMenuOpen(null);
   };
+
+  
 
   const heroSlides = [
     {
@@ -277,6 +282,9 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      <Footer />
+
     </div>
   );
 }
+
