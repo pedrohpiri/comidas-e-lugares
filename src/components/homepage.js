@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { 
-  Search, 
-  Menu, 
-  Instagram, 
-  Star, 
-  Clock, 
-  MapPin, 
-  ChevronLeft, 
-  ChevronRight,
-  Share2,
-  Link
-} from 'lucide-react';
+import Link from 'next/link';
+import { Search, Menu, Instagram, Star, Clock, MapPin, ChevronLeft, ChevronRight, Share2, Link as IconLink } from 'lucide-react';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -84,8 +75,10 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+    
      {/* Navbar */}
-<nav className="bg-black p-4 sticky top-0 z-50">
+     
+     <nav className="bg-black p-4 sticky top-0 z-50">
   <div className="container mx-auto flex items-center justify-between">
     <div className="flex items-center space-x-4">
       <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center relative">
@@ -100,12 +93,15 @@ export default function HomePage() {
       </div>
       <span className="font-bold text-xl">Comidas e Lugares</span>
     </div>
-    
     <div className="flex items-center space-x-6">
+      <Link href="/restaurants" className="text-white hover:text-blue-400">
+        Restaurantes
+      </Link>
       <Menu className="h-6 w-6" />
     </div>
   </div>
 </nav>
+
 
 
       {/* Hero Section com Carrossel */}
